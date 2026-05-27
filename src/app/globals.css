@@ -1,0 +1,95 @@
+@import url("https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700;800;900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root{
+  --bg:#2B2B2D;
+  --bg-dark:#1E1E20;
+  --orange:#DD7E1F;
+  --white:#F5F5F5;
+  --gray:#8A8A8D;
+  --border:#4A4A4C;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  background:var(--bg);
+  color:var(--white);
+  font-family:'Barlow',sans-serif;
+  overflow-x:hidden;
+}
+
+.container-custom{
+  max-width:1280px;
+  margin:auto;
+  padding-left:24px;
+  padding-right:24px;
+}
+
+.heading-xl{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:-3px;
+  line-height:.92;
+}
+
+.heading-lg{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:-2px;
+  line-height:1;
+}
+
+.section-label{
+  color:var(--orange);
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:13px;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  font-weight:700;
+}
+
+.grid-pattern{
+  background-image:
+    linear-gradient(rgba(221,126,31,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(221,126,31,.05) 1px, transparent 1px);
+  background-size:60px 60px;
+}
+
+.orange-btn{
+  background:var(--orange);
+  color:white;
+  border:none;
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:800;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  transition:.25s;
+}
+
+.orange-btn:hover{
+  opacity:.9;
+  transform:translateY(-2px);
+}
+
+.card-dark{
+  background:var(--bg-dark);
+  border:1px solid var(--border);
+}
+
+.text-gray{
+  color:#8A8A8D;
+}
