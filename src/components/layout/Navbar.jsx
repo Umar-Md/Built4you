@@ -33,11 +33,14 @@ export default function Navbar() {
         }`}
       >
         <div className="container-custom">
-          <div className="h-[68px] flex items-center justify-between">
+          <div className="h-[70px] flex items-center justify-between">
             {/* LOGO */}
-            <div onClick={() => scroll("home")} className="cursor-pointer">
-              <Logo />
-            </div>
+          <div
+  onClick={() => scroll("home")}
+  className="cursor-pointer scale-125 sm:scale-100 origin-left"
+>
+  <Logo />
+</div>
 
             {/* DESKTOP NAV */}
             <nav className="hidden lg:flex items-center gap-9">
@@ -85,9 +88,7 @@ export default function Navbar() {
       {/* MOBILE MENU */}
       <div
         className={`fixed top-0 right-0 w-full max-w-[320px] h-screen bg-[#2B2B2D] z-[400] border-l border-[#3A3A3C] transition-all duration-300 ${
-          mobileMenu
-            ? "translate-x-0"
-            : "translate-x-full"
+          mobileMenu ? "translate-x-0" : "translate-x-full"
         }`}
       >
         {/* HEADER */}

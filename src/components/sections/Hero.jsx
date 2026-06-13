@@ -16,7 +16,7 @@ export default function Hero() {
       <div className="absolute top-[-200px] right-[-150px] w-[700px] h-[700px] bg-[#DD7E1F]/10 blur-[160px]" />
 
       <div className="container-custom relative z-10">
-       <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-10 xl:gap-14 items-center min-h-[calc(72vh-68px)] py-8 lg:py-0">
+        <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-10 xl:gap-14 items-center min-h-[calc(72vh-68px)] py-8 lg:py-0">
           {/* LEFT CONTENT */}
           <div className="pt-10 lg:pt-0">
             {/* LABEL */}
@@ -24,26 +24,24 @@ export default function Hero() {
               <div className="w-[70px] h-[2px] bg-[#DD7E1F]" />
 
               <p className="section-label !mb-0">
-                PREMIUM CONSTRUCTION COMPANY
+                HOME CONSTRUCTION COMPANY
               </p>
             </div>
 
             {/* HEADING */}
-            <h1 className="heading-xl text-[48px] sm:text-[64px] md:text-[84px] xl:text-[104px] leading-[0.92] mb-6">
-              WE BUILD
-              <br />
-              FUTURE
-              <br />
-              HOMES
-            </h1>
+<h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-tight">
+  <span className="bg-gradient-to-r from-sky-400 via-cyan-300 to-blue-500 bg-clip-text text-transparent">
+    Premium Homes
+  </span>
+  <br />
+  <span className="text-white">Built 4 You</span>
+  <span className="text-[#DD7E1F]"> in Hyderabad</span>
+</h1>
 
             {/* DESCRIPTION */}
-            <p className="max-w-[720px] text-[#A0A0A3] text-[17px] md:text-[18px] leading-[1.85] mb-8">
-              Luxury construction solutions crafted with premium materials,
-              transparent pricing, industrial precision, and modern
-              architectural excellence.
-            </p>
-
+<p className="text-center text-sky-400 text-sm sm:text-lg font-semibold tracking-wide">
+  ✦ Planned With Clarity &nbsp;&nbsp; ✦ Built With Care &nbsp;&nbsp; ✦ Delivered With Responsibility
+</p>
             {/* BUTTONS */}
             <div className="flex flex-wrap gap-5 mb-10">
               <button className="orange-btn px-10 py-5 rounded-[2px] text-[16px] shadow-[0_10px_40px_rgba(221,126,31,0.25)]">
@@ -97,9 +95,7 @@ export default function Hero() {
 
             {/* FLOATING INFO CARD */}
             <div className="absolute bottom-8 left-8 z-20 bg-[#1E1E20] border border-[#444] px-8 py-7 max-w-[300px]">
-              <p className="section-label mb-4">
-                STARTING FROM
-              </p>
+              <p className="section-label mb-4">STARTING FROM</p>
 
               <h3 className="text-[62px] font-black leading-none text-[#DD7E1F] mb-3">
                 ₹1850
