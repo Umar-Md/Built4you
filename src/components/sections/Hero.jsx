@@ -20,10 +20,10 @@ export default function Hero() {
           {/* LEFT CONTENT */}
           <div className="pt-10 lg:pt-0">
             {/* LABEL */}
-            <div className="flex items-center gap-5 mb-6">
+            <div className="flex items-center gap-5 mt-6">
               <div className="w-[70px] h-[2px] bg-[#DD7E1F]" />
 
-              <p className="section-label !mb-0">
+              <p className="section-label !mb-0 ">
                 HOME CONSTRUCTION COMPANY
               </p>
             </div>
@@ -39,7 +39,7 @@ export default function Hero() {
 </h1>
 
             {/* DESCRIPTION */}
-<p className="text-center text-sky-400 text-sm sm:text-lg font-semibold tracking-wide">
+<p className=" mt-4 mb-4 text-center text-sky-400 text-sm sm:text-lg font-semibold tracking-wide">
   ✦ Planned With Clarity &nbsp;&nbsp; ✦ Built With Care &nbsp;&nbsp; ✦ Delivered With Responsibility
 </p>
             {/* BUTTONS */}
@@ -94,7 +94,7 @@ export default function Hero() {
             </div>
 
             {/* FLOATING INFO CARD */}
-            <div className="absolute bottom-8 left-8 z-20 bg-[#1E1E20] border border-[#444] px-8 py-7 max-w-[300px]">
+            <div className="absolute bottom-8 left-8 z-20 rounded-lg bg-[#1E1E20] border border-[#444] px-8 py-7 max-w-[300px]">
               <p className="section-label mb-4">STARTING FROM</p>
 
               <h3 className="text-[62px] font-black leading-none text-[#DD7E1F] mb-3">
@@ -107,7 +107,7 @@ export default function Hero() {
             </div>
 
             {/* TOP SMALL CARD */}
-            <div className="absolute top-8 right-[-30px] z-20 bg-[#DD7E1F] px-8 py-6 shadow-[0_10px_40px_rgba(221,126,31,0.3)]">
+            <div className="rounded-lg absolute top-8 right-[-30px] z-20 bg-[#DD7E1F] px-8 py-6 shadow-[0_10px_40px_rgba(221,126,31,0.3)]">
               <p className="uppercase tracking-[2px] text-[11px] text-white/70 mb-2">
                 Trusted By
               </p>
