@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Logo from "@/components/common/Logo";
+import Logo from "../common/Logo";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
