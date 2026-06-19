@@ -241,9 +241,9 @@ export default function ComparePackages() {
                 }`}
               >
                 {isHighlighted && (
-                  <div className="text-[10px] font-black tracking-[0.2em] uppercase text-[#3F3F41]/70 mb-1">
-                    Recommended
-                  </div>
+                  <div className="inline-block text-[10px] font-black tracking-[0.2em] bg-green-500 rounded-lg uppercase text-x mb-1 px-2 py-[2px]">
+  Recommended
+</div>
                 )}
                 <div
                   className="text-white font-black text-lg uppercase tracking-wide"

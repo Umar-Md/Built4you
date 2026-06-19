@@ -105,7 +105,7 @@ export default function Navbar() {
                 <button
                   key={id}
                   onClick={() => scroll(id)}
-                  className="text-[#CCC] hover:text-[#DD7E1F] transition-all duration-200 uppercase tracking-[1.5px] font-bold text-[14px]"
+                  className="text-[#FFFFF] hover:text-[#DD7E1F] transition-all duration-200 uppercase tracking-[1.5px] font-bold text-[14px]"
                   style={{
                     fontFamily: "'Barlow Condensed', sans-serif",
                   }}

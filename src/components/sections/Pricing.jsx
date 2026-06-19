@@ -16,7 +16,7 @@ export default function PricingSection() {
           height: "500px",
           borderRadius: "50%",
           background:
-            "conic-gradient(from 90deg, rgba(255, 222, 89, 0.9), rgba(255, 222, 89, 0.2), transparent 60%)",
+            "#DD7E1F",
           filter: "blur(20px)",
           opacity: 0.8,
           transform: "rotate(-10deg)",
@@ -34,7 +34,7 @@ export default function PricingSection() {
           height: "500px",
           borderRadius: "50%",
           background:
-            "conic-gradient(from 90deg, rgba(255, 222, 89, 0.9), rgba(255, 222, 89, 0.2), transparent 70%)",
+            "#DD7E1F",
           filter: "blur(20px)",
           opacity: 0.8,
           transform: "rotate(-200deg)",
@@ -72,9 +72,9 @@ export default function PricingSection() {
         </div>
 
         {/* Balanced */}
-        <div className="bg-[#ffde59] text-black text-center rounded-2xl px-10 py-12 w-[300px] h-[500px] shadow-2xl relative flex flex-col justify-between scale-110">
+        <div className="bg-[#DD7E1F] text-black text-center rounded-2xl px-10 py-12 w-[300px] h-[500px] shadow-2xl relative flex flex-col justify-between scale-110">
 
-          <div className="absolute top-[-15px] left-1/2 -translate-x-1/2 bg-white px-4 py-1 rounded-full text-xs font-semibold shadow-md">
+          <div className="absolute top-[-15px] left-1/2 -translate-x-1/2 bg-green-600 px-4 py-1 rounded-full text-white font-semibold shadow-md">
             RECOMMENDED
           </div>
 
