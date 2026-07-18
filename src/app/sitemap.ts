@@ -8,13 +8,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly',
       priority: 1,
     },
-    {
-      url: 'https://built4you.in/about',
-      lastModified: new Date(),
-    },
-    {
-      url: 'https://built4you.in/contact',
-      lastModified: new Date(),
-    },
   ]
 }
