@@ -1,24 +1,29 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Logo from "../common/Logo";
+
+const navItems = [
+  ["Home", "/"],
+  ["Services", "/services"],
+  ["Vision", "/vision"],
+  ["Estimator", "/estimator"],
+  ["Packages", "/packages"],
+  ["Contact", "/contact"],
+];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", fn);
     return () => window.removeEventListener("scroll", fn);
   }, []);
-
-  const scroll = (id) => {
-    setMobileMenu(false);
-    document.getElementById(id)?.scrollIntoView({
-      behavior: "smooth",
-    });
-  };
 
   return (
     <>
@@ -85,43 +90,32 @@ export default function Navbar() {
         <div className="container-custom">
           <div className="h-[70px] flex items-center justify-between">
             {/* LOGO */}
-            <div
-              onClick={() => scroll("home")}
-              className="cursor-pointer scale-125 sm:scale-100 origin-left"
-            >
+            <Link href="/" className="scale-125 sm:scale-100 origin-left">
               <Logo />
-            </div>
+            </Link>
 
             {/* DESKTOP NAV */}
             <nav className="hidden lg:flex items-center gap-9">
-              {[
-                ["Home", "home"],
-                ["Services", "services"],
-                ["Vision", "vision"],
-                ["Estimator", "estimator"],
-                ["Packages", "packages"],
-                ["Contact", "contact"],
-              ].map(([label, id]) => (
-                <button
-                  key={id}
-                  onClick={() => scroll(id)}
-                  className="text-[#FFFFF] hover:text-[#DD7E1F] transition-all duration-200 uppercase tracking-[1.5px] font-bold text-[14px]"
+              {navItems.map(([label, href]) => (
+                <Link
+                  key={href}
+                  href={href}
+                  className={`hover:text-[#DD7E1F] transition-all duration-200 uppercase tracking-[1.5px] font-bold text-[14px] ${
+                    pathname === href ? "text-[#DD7E1F]" : "text-white"
+                  }`}
                   style={{
                     fontFamily: "'Barlow Condensed', sans-serif",
                   }}
                 >
                   {label}
-                </button>
+                </Link>
               ))}
 
               {/* PREMIUM ANIMATED QUOTE BUTTON */}
               <div className="quote-btn-wrapper">
-                <button
-                  onClick={() => scroll("contact")}
-                  className="quote-btn px-8 py-3 text-[14px]"
-                >
+                <Link href="/contact" className="quote-btn px-8 py-3 text-[14px]">
                   GET QUOTE
-                </button>
+                </Link>
               </div>
             </nav>
 
@@ -145,12 +139,9 @@ export default function Navbar() {
         }`}
       >
         <div className="h-[68px] border-b border-[#3A3A3C] px-6 flex items-center justify-between">
-          <div
-            onClick={() => scroll("home")}
-            className="cursor-pointer"
-          >
+          <Link href="/" onClick={() => setMobileMenu(false)}>
             <Logo />
-          </div>
+          </Link>
 
           <button
             onClick={() => setMobileMenu(false)}
@@ -161,31 +152,24 @@ export default function Navbar() {
         </div>
 
         <div className="p-6 flex flex-col">
-          {[
-            ["Home", "home"],
-            ["Services", "services"],
-            ["Vision", "vision"],
-            ["Estimator", "estimator"],
-            ["Packages", "packages"],
-            ["Contact", "contact"],
-          ].map(([label, id]) => (
-            <button
-              key={id}
-              onClick={() => scroll(id)}
-              className="h-[65px] border-b border-[#333] text-left uppercase tracking-[2px] font-bold text-[#CCC] hover:text-[#DD7E1F] transition-all"
+          {navItems.map(([label, href]) => (
+            <Link
+              key={href}
+              href={href}
+              onClick={() => setMobileMenu(false)}
+              className={`h-[65px] flex items-center border-b border-[#333] uppercase tracking-[2px] font-bold hover:text-[#DD7E1F] transition-all ${
+                pathname === href ? "text-[#DD7E1F]" : "text-[#CCC]"
+              }`}
             >
               {label}
-            </button>
+            </Link>
           ))}
 
           <div className="mt-8">
             <div className="quote-btn-wrapper w-full">
-              <button
-                onClick={() => scroll("contact")}
-                className="quote-btn w-full h-[58px]"
-              >
+              <Link href="/contact" onClick={() => setMobileMenu(false)} className="quote-btn w-full h-[58px] flex items-center justify-center">
                 GET FREE QUOTE
-              </button>
+              </Link>
             </div>
           </div>
         </div>

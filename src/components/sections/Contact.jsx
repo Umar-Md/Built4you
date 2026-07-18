@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-export default function Contact() {
+export default function Contact({ embedded = false, formOnly = false }) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -75,16 +75,18 @@ export default function Contact() {
 
   return (
     <section
-      id="contact"
-      className="relative py-32 bg-[#2B2B2D] overflow-hidden"
+      id={formOnly ? "footer-contact-form" : "contact"}
+      className={`relative overflow-hidden ${
+        embedded ? "bg-transparent py-0" : "bg-[#2B2B2D] py-32"
+      }`}
     >
       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[#DD7E1F]/10 blur-[120px]" />
 
-      <div className="container-custom relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+      <div className={embedded ? "relative z-10" : "container-custom relative z-10"}>
+        <div className={formOnly ? "block" : "grid grid-cols-1 lg:grid-cols-2 gap-20 items-center"}>
 
           {/* LEFT */}
-          <div>
+          {!formOnly && <div>
             <p className="uppercase tracking-[4px] text-[#DD7E1F] mb-4 text-sm">
               Contact Us
             </p>
@@ -99,12 +101,16 @@ export default function Contact() {
               Reach out to discuss your dream home project and get a free
               consultation with our construction experts.
             </p>
-          </div>
+          </div>}
 
           {/* FORM */}
           <form
             onSubmit={handleSubmit}
-            className="rounded-[40px] border border-white/10 bg-white/5 backdrop-blur-2xl p-10"
+            className={`border border-orange-500 border-white/10 bg-white/5 backdrop-blur-2xl ${
+              formOnly
+                ? "rounded-[24px] p-5 [&>div]:gap-4 [&_input]:h-12 [&_textarea]:min-h-[105px] [&_button]:h-12"
+                : "rounded-[40px] p-10"
+            }`}
           >
             <div className="flex flex-col gap-6">
 
@@ -113,7 +119,7 @@ export default function Contact() {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                placeholder="Full Name"
+                placeholder="Ankith Kommu"
                 required
                 className="h-16 rounded-2xl bg-black/40 border border-white/10 px-6 outline-none focus:border-[#DD7E1F]"
               />
@@ -123,7 +129,7 @@ export default function Contact() {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="Email Address"
+                placeholder="ankxxkoxxx12@gmail.com"
                 required
                 className="h-16 rounded-2xl bg-black/40 border border-white/10 px-6 outline-none focus:border-[#DD7E1F]"
               />
@@ -133,7 +139,7 @@ export default function Contact() {
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                placeholder="Phone Number"
+                placeholder="+91 99890xxxxx"
                 required
                 className="h-16 rounded-2xl bg-black/40 border border-white/10 px-6 outline-none focus:border-[#DD7E1F]"
               />
@@ -142,7 +148,7 @@ export default function Contact() {
                 name="message"
                 value={formData.message}
                 onChange={handleChange}
-                placeholder="Tell us about your project"
+                placeholder="East Facing Plot With Lenght 50ft and Width 30ft...."
                 required
                 className="rounded-2xl bg-black/40 border border-white/10 px-6 py-5 outline-none focus:border-[#DD7E1F] min-h-[180px]"
               />

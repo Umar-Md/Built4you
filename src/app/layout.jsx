@@ -1,5 +1,8 @@
 import "./globals.css";
 import Script from "next/script";
+import Navbar from "../components/layout/Navbar";
+import Footer from "../components/layout/Footer";
+import FloatingButtons from "../components/layout/FloatingButtons";
 
 export const metadata = {
   title: "Built4You",
@@ -24,7 +27,12 @@ export default function RootLayout({ children }) {
           `}
         </Script>
       </head>
-      <body>{children}</body>
+      <body>
+        <Navbar />
+        <main>{children}</main>
+        <Footer />
+        <FloatingButtons />
+      </body>
     </html>
   );
 }

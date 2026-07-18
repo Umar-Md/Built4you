@@ -23,32 +23,41 @@ export default function Hero() {
             <div className="flex items-center gap-5 mt-6">
               <div className="w-[70px] h-[2px] bg-[#DD7E1F]" />
 
-              <p className="section-label !mb-0 ">
-                HOME CONSTRUCTION COMPANY
-              </p>
+              <p className="section-label !mb-0 ">HOME CONSTRUCTION COMPANY</p>
             </div>
 
             {/* HEADING */}
-<h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-tight">
-  <span className="bg-gradient-to-r from-sky-400 via-cyan-300 to-blue-500 bg-clip-text text-transparent">
-    Premium Homes
-  </span>
-  <br />
-  <span className="text-white">Built 4 You</span>
-  <span className="text-[#DD7E1F]"> in Hyderabad</span>
-</h1>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-tight">
+              <span className="bg-gradient-to-r from-sky-400 via-cyan-300 to-blue-500 bg-clip-text text-transparent">
+                Premium Homes
+              </span>
+              <br />
+              <span className="text-white">Built 4 You</span>
+              <span className="text-[#DD7E1F]"> in Hyderabad</span>
+            </h1>
 
             {/* DESCRIPTION */}
-<p className=" mt-4 mb-4 text-center text-sky-400 text-sm sm:text-lg font-semibold tracking-wide">
-  ✦ Planned With Clarity &nbsp;&nbsp; ✦ Built With Care &nbsp;&nbsp; ✦ Delivered With Responsibility
-</p>
+            <p className=" mt-4 mb-4 text-center text-sky-400 text-sm sm:text-lg font-semibold tracking-wide">
+              ✦ Planned With Clarity &nbsp;&nbsp; ✦ Built With Care &nbsp;&nbsp;
+              ✦ Delivered With Responsibility
+            </p>
             {/* BUTTONS */}
             <div className="flex flex-wrap gap-5 mb-10">
               <button className="orange-btn px-10 py-5 rounded-[2px] text-[16px] shadow-[0_10px_40px_rgba(221,126,31,0.25)]">
-                START YOUR PROJECT
+                See My Home
               </button>
 
-              <button className="border border-[#555] hover:border-[#DD7E1F] hover:text-[#DD7E1F] transition-all duration-300 px-10 py-5 uppercase tracking-[2px] font-bold">
+              <button
+                onClick={() => {
+                  const packagesSection = document.getElementById("packages");
+                  if (packagesSection) {
+                    packagesSection.scrollIntoView({ behavior: "smooth" });
+                  } else {
+                    window.location.assign("/packages");
+                  }
+                }}
+                className="border border-[#555] hover:border-[#DD7E1F] hover:text-[#DD7E1F] transition-all duration-300 px-10 py-5 uppercase tracking-[2px] font-bold"
+              >
                 VIEW PACKAGES
               </button>
             </div>

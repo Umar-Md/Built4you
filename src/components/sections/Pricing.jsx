@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 export default function PricingSection() {
   const router = useRouter();
   return (
-    <div className="relative min-h-screen flex flex-col items-center justify-center bg-[#2B2B2D] text-white overflow-hidden px-4 py-20">
+    <div id="packages" className="relative min-h-screen flex flex-col items-center justify-center bg-[#2B2B2D] text-white overflow-hidden px-4 py-20">
       
       {/* Gold Glow Top */}
       <div
