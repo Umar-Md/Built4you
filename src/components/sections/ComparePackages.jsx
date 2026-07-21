@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 const PACKAGES = ["Essential", "Balanced", "Signature"];
 
@@ -360,14 +361,15 @@ export default function ComparePackages() {
                 <p className={`text-[11px] mb-4 ${isHighlighted ? "text-white/70" : "text-white/30"}`}>
                   {pkg} Package
                 </p>
-                <button
-                  className={`w-full py-2.5 rounded-lg text-xs font-black tracking-[0.15em] uppercase transition-opacity hover:opacity-90 ${
+                <Link
+                  href="/#estimator"
+                  className={`block w-full py-2.5 rounded-lg text-center text-xs font-black tracking-[0.15em] uppercase transition-opacity hover:opacity-90 ${
                     isHighlighted ? "bg-[#3F3F41] text-white" : "bg-[#DD7E1F] text-white"
                   }`}
                   style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
                 >
                   Get Estimate
-                </button>
+                </Link>
               </div>
             );
           })}

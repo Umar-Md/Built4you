@@ -7,10 +7,9 @@ import Logo from "../common/Logo";
 
 const navItems = [
   ["Home", "/"],
-  ["Services", "/services"],
+  ["Services & Projects", "/services"],
   ["Vision", "/vision"],
-  ["Estimator", "/estimator"],
-  ["Packages", "/packages"],
+  ["Estimator", "/#estimator"],
   ["Contact", "/contact"],
 ];
 

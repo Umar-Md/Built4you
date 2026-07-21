@@ -229,7 +229,7 @@ const CARDS = [
 const AUTOPLAY_MS = 4200;
 const DRAG_THRESHOLD = 60;
 
-function WhyChooseUs() {
+export function WhyChooseUs() {
   const [active, setActive] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);

@@ -1,8 +1,43 @@
 "use client";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { useId } from "react";
+
+const GradientTrendingUp = () => {
+  const gradientId = useId();
+
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      className="h-6 w-6 shrink-0 drop-shadow-[0_0_5px_rgba(34,211,238,0.4)]"
+      aria-hidden="true"
+    >
+      <defs>
+        <linearGradient id={gradientId} x1="3" y1="3" x2="21" y2="21">
+          <stop offset="0%" stopColor="#38bdf8" />
+          <stop offset="50%" stopColor="#67e8f9" />
+          <stop offset="100%" stopColor="#3b82f6" />
+        </linearGradient>
+      </defs>
+      <path
+        d="m3 17 6-6 4 4 8-8"
+        stroke={`url(#${gradientId})`}
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M15 7h6v6"
+        stroke={`url(#${gradientId})`}
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+};
 
 export default function PricingSection() {
-  const router = useRouter();
   return (
     <div id="packages" className="relative min-h-screen flex flex-col items-center justify-center bg-[#2B2B2D] text-white overflow-hidden px-4 py-20">
       
@@ -53,22 +88,22 @@ export default function PricingSection() {
             </h3>
 
             <h2 className="text-4xl font-bold mb-2">
-              ₹1500
+              ₹1850
               <span className="text-sm font-normal">/sqft</span>
             </h2>
 
             <div className="w-full h-[2px] bg-gray-500 mx-auto mb-6"></div>
 
             <ul className="space-y-3 text-sm text-gray-300">
-              <li>✔ First Time Builders</li>
-              <li>✔ Small Plots</li>
-              <li>✔ Clean, Affordable, Reliable</li>
+              <li className="flex items-center gap-2"><GradientTrendingUp />First Time Builders</li>
+              <li className="flex items-center gap-2"><GradientTrendingUp />Small Plots</li>
+              <li className="flex items-center gap-2"><GradientTrendingUp />Clean, Affordable, Reliable</li>
             </ul>
           </div>
 
-          <button className="border border-gray-500 px-5 py-2 rounded-lg hover:bg-gray-700 transition-all">
+          <Link href="/#estimator" className="border border-gray-500 px-5 py-2 rounded-lg hover:bg-gray-700 transition-all">
             Get Estimate
-          </button>
+          </Link>
         </div>
 
         {/* Balanced */}
@@ -84,22 +119,22 @@ export default function PricingSection() {
             </h3>
 
             <h2 className="text-4xl font-bold mb-2">
-              ₹1800
+              ₹2100
               <span className="text-sm font-normal">/sqft</span>
             </h2>
 
             <div className="w-full h-[2px] bg-black mx-auto mb-6"></div>
 
             <ul className="space-y-3 text-sm text-gray-800">
-              <li>✔ Beauty + Budget Control</li>
-              <li>✔ Small to Medium Plots</li>
-              <li>✔ Well Designed & Balanced</li>
+              <li className="flex items-center gap-2"><GradientTrendingUp />Beauty + Budget Control</li>
+              <li className="flex items-center gap-2"><GradientTrendingUp />Small to Medium Plots</li>
+              <li className="flex items-center gap-2"><GradientTrendingUp />Well Designed & Balanced</li>
             </ul>
           </div>
 
-          <button className="bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-900 transition-all">
+          <Link href="/#estimator" className="bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-900 transition-all">
             Get Estimate
-          </button>
+          </Link>
         </div>
 
         {/* Signature */}
@@ -110,32 +145,27 @@ export default function PricingSection() {
             </h3>
 
             <h2 className="text-4xl font-bold mb-2">
-              ₹2200
+              ₹2350
               <span className="text-sm font-normal">/sqft</span>
             </h2>
 
             <div className="w-full h-[2px] bg-gray-500 mx-auto mb-6"></div>
 
             <ul className="space-y-3 text-sm text-gray-300">
-              <li>✔ Premium Villa Homes</li>
-              <li>✔ Medium to Large Plots</li>
-              <li>✔ Custom & Luxury Designs</li>
+              <li className="flex items-center gap-2"><GradientTrendingUp />Premium Villa Homes</li>
+              <li className="flex items-center gap-2"><GradientTrendingUp />Medium to Large Plots</li>
+              <li className="flex items-center gap-2"><GradientTrendingUp />Custom & Luxury Designs</li>
             </ul>
           </div>
 
-          <button className="border border-gray-500 px-5 py-2 rounded-lg hover:bg-gray-700 transition-all">
+          <Link href="/#estimator" className="border border-gray-500 px-5 py-2 rounded-lg hover:bg-gray-700 transition-all">
             Get Estimate
-          </button>
+          </Link>
         </div>
       </div>
 
       {/* Compare Button */}
-      <button
-        onClick={() => router.push("/compare-packages")}
-        className="bg-white mt-10 text-black font-semibold text-lg px-6 py-3 rounded-full shadow hover:bg-gray-200 transition"
-      >
-        Compare our Packages
-      </button>
+      
     </div>
   );
 }

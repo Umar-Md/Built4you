@@ -94,7 +94,7 @@ export default function CostEstimator() {
   };
 
   return (
-    <section id="estimator" className="bg-[#2B2B2D] py-20 px-4 sm:px-6 lg:px-8">
+    <section id="estimator" className="scroll-mt-[70px] bg-[#2B2B2D] py-20 px-4 sm:px-6 lg:px-8">
       {/* Header */}
       <div className="max-w-5xl mx-auto mb-12">
         <p className="text-[#DD7E1F] text-xs font-bold tracking-[0.3em] uppercase mb-3">

@@ -32,7 +32,7 @@ function SocialIcon({ name }) {
 
 const companyLinks = [
   ["Home", "/"],
-  ["Services", "/services"],
+  ["Services & Projects", "/services"],
   ["Vision", "/vision"],
   ["Packages", "/packages"],
   ["Contact", "/contact"],

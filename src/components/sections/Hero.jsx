@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 export default function Hero() {
   return (
     <section
@@ -43,9 +45,12 @@ export default function Hero() {
             </p>
             {/* BUTTONS */}
             <div className="flex flex-wrap gap-5 mb-10">
-              <button className="orange-btn px-10 py-5 rounded-[2px] text-[16px] shadow-[0_10px_40px_rgba(221,126,31,0.25)]">
+              <Link
+                href="/process"
+                className="orange-btn px-10 py-5 rounded-[2px] text-[16px] shadow-[0_10px_40px_rgba(221,126,31,0.25)]"
+              >
                 See My Home
-              </button>
+              </Link>
 
               <button
                 onClick={() => {
