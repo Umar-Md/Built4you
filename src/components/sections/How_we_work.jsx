@@ -42,7 +42,7 @@ const Timeline = () => {
   ];
 
   return (
-    <div className="relative bg-[#2B2B2D] text-white min-h-screen">
+    <div className="relative bg-[#2B2B2D] text-white min-h-screen" id="process">
       {/* Heading */}
       <section className="py-32 text-center max-w-2xl mx-auto px-4">
         <h2 className="text-5xl font-semibold bg-gradient-to-r from-orange-500 to-pink-600 bg-clip-text text-transparent mb-6">
