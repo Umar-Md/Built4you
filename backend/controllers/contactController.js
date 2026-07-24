@@ -25,9 +25,10 @@ const transporter = nodemailer.createTransport({
     user: EMAIL_USER,
     pass: EMAIL_PASS,
   },
-  connectionTimeout: 10000, // 10 seconds to establish the TCP connection.
-  greetingTimeout: 10000, // 10 seconds waiting for greeting after connect.
-  socketTimeout: 10000, // 10 seconds of inactivity on the SMTP socket.
+  family: 4, // Force IPv4 because Render's IPv6 egress is not working for Gmail SMTP.
+  connectionTimeout: 20000, // 20 seconds to establish the TCP connection.
+  greetingTimeout: 20000, // 20 seconds waiting for greeting after connect.
+  socketTimeout: 20000, // 20 seconds of inactivity on the SMTP socket.
   logger: EMAIL_DEBUG,
   debug: EMAIL_DEBUG,
   tls: {
