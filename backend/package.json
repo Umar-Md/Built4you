@@ -11,7 +11,7 @@
     "build": "echo \"No build step required for backend\""
   },
   "dependencies": {
-    "@resend/client": "^1.4.0",
+    "resend": "^6.18.0",
     "cors": "^2.8.5",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",

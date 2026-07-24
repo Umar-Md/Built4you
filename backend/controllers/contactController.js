@@ -1,4 +1,4 @@
-import Resend from "@resend/client";
+import Resend from "resend";
 
 const escapeHtml = (value) =>
   String(value)
