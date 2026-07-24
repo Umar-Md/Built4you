@@ -16,6 +16,7 @@ const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,
   secure: false, // Gmail STARTTLS on port 587 is recommended and works reliably on Render.
+  requireTLS: true, // Force TLS upgrade after connecting.
   auth: {
     user: EMAIL_USER,
     pass: EMAIL_PASS,
