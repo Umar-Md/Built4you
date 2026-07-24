@@ -11,12 +11,16 @@ const escapeHtml = (value) =>
 const EMAIL_USER = process.env.EMAIL_USER;
 const EMAIL_PASS = process.env.EMAIL_PASS;
 const EMAIL_TO = process.env.EMAIL_TO || process.env.EMAIL_USER;
+const EMAIL_HOST = process.env.EMAIL_HOST || "smtp.gmail.com";
+const EMAIL_PORT = Number(process.env.EMAIL_PORT || 587);
+const EMAIL_SECURE = process.env.EMAIL_SECURE === "true";
+const EMAIL_DEBUG = process.env.EMAIL_DEBUG === "true";
 
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false, // Gmail STARTTLS on port 587 is recommended and works reliably on Render.
-  requireTLS: true, // Force TLS upgrade after connecting.
+  host: EMAIL_HOST,
+  port: EMAIL_PORT,
+  secure: EMAIL_SECURE,
+  requireTLS: EMAIL_PORT === 587 && !EMAIL_SECURE,
   auth: {
     user: EMAIL_USER,
     pass: EMAIL_PASS,
@@ -24,10 +28,21 @@ const transporter = nodemailer.createTransport({
   connectionTimeout: 10000, // 10 seconds to establish the TCP connection.
   greetingTimeout: 10000, // 10 seconds waiting for greeting after connect.
   socketTimeout: 10000, // 10 seconds of inactivity on the SMTP socket.
+  logger: EMAIL_DEBUG,
+  debug: EMAIL_DEBUG,
   tls: {
     rejectUnauthorized: true, // Validate Gmail's certificate in production.
   },
 });
+
+if (EMAIL_DEBUG) {
+  console.log("📧 Nodemailer debug enabled:", {
+    host: EMAIL_HOST,
+    port: EMAIL_PORT,
+    secure: EMAIL_SECURE,
+    requireTLS: EMAIL_PORT === 587 && !EMAIL_SECURE,
+  });
+}
 
 export const verifyMailTransporter = async () => {
   if (!EMAIL_USER || !EMAIL_PASS) {
