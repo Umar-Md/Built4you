@@ -1,3 +1,4 @@
+import dns from "dns/promises";
 import nodemailer from "nodemailer";
 
 const escapeHtml = (value) =>
@@ -15,9 +16,22 @@ const EMAIL_HOST = process.env.EMAIL_HOST || "smtp.gmail.com";
 const EMAIL_PORT = Number(process.env.EMAIL_PORT || 587);
 const EMAIL_SECURE = process.env.EMAIL_SECURE === "true";
 const EMAIL_DEBUG = process.env.EMAIL_DEBUG === "true";
+const EMAIL_FORCE_IPV4 = process.env.EMAIL_FORCE_IPV4 === "true";
+
+const resolveHostIPv4 = async (host) => {
+  try {
+    const addresses = await dns.resolve4(host);
+    return addresses?.[0] || host;
+  } catch (error) {
+    console.warn("Unable to resolve IPv4 address for SMTP host:", host, error?.message);
+    return host;
+  }
+};
+
+const SMTP_HOST = EMAIL_FORCE_IPV4 ? await resolveHostIPv4(EMAIL_HOST) : EMAIL_HOST;
 
 const transporter = nodemailer.createTransport({
-  host: EMAIL_HOST,
+  host: SMTP_HOST,
   port: EMAIL_PORT,
   secure: EMAIL_SECURE,
   requireTLS: EMAIL_PORT === 587 && !EMAIL_SECURE,
@@ -25,7 +39,7 @@ const transporter = nodemailer.createTransport({
     user: EMAIL_USER,
     pass: EMAIL_PASS,
   },
-  family: 4, // Force IPv4 because Render's IPv6 egress is not working for Gmail SMTP.
+  family: 4,
   connectionTimeout: 20000, // 20 seconds to establish the TCP connection.
   greetingTimeout: 20000, // 20 seconds waiting for greeting after connect.
   socketTimeout: 20000, // 20 seconds of inactivity on the SMTP socket.
@@ -33,6 +47,7 @@ const transporter = nodemailer.createTransport({
   debug: EMAIL_DEBUG,
   tls: {
     rejectUnauthorized: true, // Validate Gmail's certificate in production.
+    servername: EMAIL_HOST,
   },
 });
 
