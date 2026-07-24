@@ -1,6 +1,3 @@
-import dns from "dns/promises";
-import nodemailer from "nodemailer";
-
 const escapeHtml = (value) =>
   String(value)
     .replaceAll("&", "&amp;")
@@ -9,70 +6,64 @@ const escapeHtml = (value) =>
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
 
-const EMAIL_USER = process.env.EMAIL_USER;
-const EMAIL_PASS = process.env.EMAIL_PASS;
-const EMAIL_TO = process.env.EMAIL_TO || process.env.EMAIL_USER;
-const EMAIL_HOST = process.env.EMAIL_HOST || "smtp.gmail.com";
-const EMAIL_PORT = Number(process.env.EMAIL_PORT || 587);
-const EMAIL_SECURE = process.env.EMAIL_SECURE === "true";
-const EMAIL_DEBUG = process.env.EMAIL_DEBUG === "true";
-const EMAIL_FORCE_IPV4 = process.env.EMAIL_FORCE_IPV4 === "true";
+const RESEND_API_KEY = process.env.RESEND_API_KEY;
+const CONTACT_FROM = process.env.CONTACT_FROM;
+const CONTACT_TO = (process.env.CONTACT_TO || process.env.EMAIL_TO || "")
+  .split(",")
+  .map((email) => email.trim())
+  .filter(Boolean);
 
-const resolveHostIPv4 = async (host) => {
-  try {
-    const addresses = await dns.resolve4(host);
-    return addresses?.[0] || host;
-  } catch (error) {
-    console.warn("Unable to resolve IPv4 address for SMTP host:", host, error?.message);
-    return host;
-  }
-};
+const isValidEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value));
 
-const SMTP_HOST = EMAIL_FORCE_IPV4 ? await resolveHostIPv4(EMAIL_HOST) : EMAIL_HOST;
+const buildLeadEmailHtml = ({ name, email, phone, message }) => `
+  <h2 style="margin:0 0 16px;color:#2B2B2D;">New Lead from ${escapeHtml(name)}</h2>
+  <table cellpadding="8" cellspacing="0" border="1" style="border-collapse:collapse;">
+    <tr><td><strong>Name</strong></td><td>${escapeHtml(name)}</td></tr>
+    <tr><td><strong>Email</strong></td><td>${escapeHtml(email)}</td></tr>
+    <tr><td><strong>Phone</strong></td><td>${escapeHtml(phone)}</td></tr>
+    <tr><td><strong>Message</strong></td><td>${escapeHtml(message)}</td></tr>
+  </table>
+`;
 
-const transporter = nodemailer.createTransport({
-  host: SMTP_HOST,
-  port: EMAIL_PORT,
-  secure: EMAIL_SECURE,
-  requireTLS: EMAIL_PORT === 587 && !EMAIL_SECURE,
-  auth: {
-    user: EMAIL_USER,
-    pass: EMAIL_PASS,
-  },
-  family: 4,
-  connectionTimeout: 20000, // 20 seconds to establish the TCP connection.
-  greetingTimeout: 20000, // 20 seconds waiting for greeting after connect.
-  socketTimeout: 20000, // 20 seconds of inactivity on the SMTP socket.
-  logger: EMAIL_DEBUG,
-  debug: EMAIL_DEBUG,
-  tls: {
-    rejectUnauthorized: true, // Validate Gmail's certificate in production.
-    servername: EMAIL_HOST,
-  },
-});
-
-if (EMAIL_DEBUG) {
-  console.log("📧 Nodemailer debug enabled:", {
-    host: EMAIL_HOST,
-    port: EMAIL_PORT,
-    secure: EMAIL_SECURE,
-    requireTLS: EMAIL_PORT === 587 && !EMAIL_SECURE,
+const sendLeadEmail = async ({ name, email, phone, message }) => {
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${RESEND_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: CONTACT_FROM,
+      to: CONTACT_TO,
+      reply_to: email,
+      subject: `New Lead from ${name}`,
+      html: buildLeadEmailHtml({ name, email, phone, message }),
+    }),
   });
-}
 
-export const verifyMailTransporter = async () => {
-  if (!EMAIL_USER || !EMAIL_PASS) {
-    throw new Error(
-      "Missing EMAIL_USER or EMAIL_PASS environment variables for Gmail SMTP",
-    );
+  if (!response.ok) {
+    let details = null;
+
+    try {
+      details = await response.json();
+    } catch {
+      details = await response.text();
+    }
+
+    const error = new Error("Resend email delivery failed");
+    error.status = response.status;
+    error.details = details;
+    throw error;
   }
 
-  // Verify the SMTP transport configuration. This is a lightweight authentication check.
-  return transporter.verify();
+  return response.json();
 };
 
 export const handleContact = async (req, res) => {
-  const { name, email, phone, message } = req.body;
+  const name = String(req.body?.name || "").trim();
+  const email = String(req.body?.email || "").trim();
+  const phone = String(req.body?.phone || "").trim();
+  const message = String(req.body?.message || "").trim();
 
   if (!name || !email || !phone || !message) {
     return res.status(400).json({
@@ -81,55 +72,42 @@ export const handleContact = async (req, res) => {
     });
   }
 
-  if (!EMAIL_USER || !EMAIL_PASS) {
-    console.error("Email credentials are not configured for Gmail SMTP.");
+  if (!isValidEmail(email)) {
+    return res.status(400).json({
+      success: false,
+      error: "Please enter a valid email address.",
+    });
+  }
+
+  if (!RESEND_API_KEY || !CONTACT_FROM || CONTACT_TO.length === 0) {
+    console.error(
+      "Contact email service is missing RESEND_API_KEY, CONTACT_FROM, or CONTACT_TO.",
+    );
+
     return res.status(503).json({
       success: false,
-      error: "Contact service unavailable. Email credentials are not set.",
+      error: "Contact service unavailable. Email delivery is not configured.",
     });
   }
 
   try {
-    await verifyMailTransporter();
-
-    await transporter.sendMail({
-      from: EMAIL_USER,
-      replyTo: email,
-      to: EMAIL_TO,
-      subject: `New Lead from ${name}`,
-      html: `
-        <h2 style="margin:0;color:#2B2B2D;">New Lead from ${escapeHtml(name)}</h2>
-        <table cellpadding="8" cellspacing="0" border="1" style="border-collapse:collapse;">
-          <tr><td><strong>Name</strong></td><td>${escapeHtml(name)}</td></tr>
-          <tr><td><strong>Email</strong></td><td>${escapeHtml(email)}</td></tr>
-          <tr><td><strong>Phone</strong></td><td>${escapeHtml(phone)}</td></tr>
-          <tr><td><strong>Message</strong></td><td>${escapeHtml(message)}</td></tr>
-        </table>
-      `,
-    });
+    await sendLeadEmail({ name, email, phone, message });
 
     return res.json({
       success: true,
       message: "Message sent successfully!",
     });
   } catch (error) {
-    console.error("Unable to send contact email:", {
+    console.error("Unable to send contact email with Resend:", {
       message: error?.message,
-      code: error?.code,
-      response: error?.response,
-      responseCode: error?.responseCode,
+      status: error?.status,
+      details: error?.details,
       stack: error?.stack,
     });
 
-    const isNetworkError = ["ETIMEDOUT", "ECONNECTION", "ENETUNREACH", "EAI_AGAIN"].includes(
-      error?.code,
-    );
-
     return res.status(500).json({
       success: false,
-      error: isNetworkError
-        ? "Unable to send message due to email delivery timeout. Check SMTP connectivity and Render outbound rules."
-        : "Unable to send message. Please try again later.",
+      error: "Unable to send message. Please try again later.",
     });
   }
 };
