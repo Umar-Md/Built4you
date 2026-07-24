@@ -11,11 +11,11 @@
     "build": "echo \"No build step required for backend\""
   },
   "dependencies": {
+    "@resend/client": "^1.4.0",
     "cors": "^2.8.5",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "express-rate-limit": "^8.6.0",
-    "helmet": "^8.3.0",
-    "nodemailer": "^9.0.3"
+    "helmet": "^8.3.0"
   }
 }

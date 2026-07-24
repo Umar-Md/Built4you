@@ -1,4 +1,4 @@
-import nodemailer from "nodemailer";
+import Resend from "@resend/client";
 
 const escapeHtml = (value) =>
   String(value)
@@ -8,19 +8,13 @@ const escapeHtml = (value) =>
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
 
-const EMAIL_USER = process.env.EMAIL_USER;
-const EMAIL_PASS = process.env.EMAIL_PASS;
-const EMAIL_TO = process.env.EMAIL_TO || process.env.EMAIL_USER;
+const RESEND_API_KEY = process.env.RESEND_API_KEY;
+const RESEND_FROM = process.env.RESEND_FROM;
+const RESEND_TO = process.env.RESEND_TO;
+
+const resend = new Resend(RESEND_API_KEY);
 
 const isValidEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value));
-
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: EMAIL_USER,
-    pass: EMAIL_PASS,
-  },
-});
 
 const buildLeadEmailHtml = ({ name, email, phone, message }) => `
   <h2 style="margin:0 0 16px;color:#2B2B2D;">New Lead from ${escapeHtml(name)}</h2>
@@ -31,6 +25,20 @@ const buildLeadEmailHtml = ({ name, email, phone, message }) => `
     <tr><td><strong>Message</strong></td><td>${escapeHtml(message)}</td></tr>
   </table>
 `;
+
+const emailConfigError = () => {
+  const missing = [
+    !RESEND_API_KEY && "RESEND_API_KEY",
+    !RESEND_FROM && "RESEND_FROM",
+    !RESEND_TO && "RESEND_TO",
+  ].filter(Boolean);
+
+  if (missing.length === 0) {
+    return null;
+  }
+
+  return new Error(`Missing required email environment variables: ${missing.join(", ")}`);
+};
 
 export const handleContact = async (req, res) => {
   const name = String(req.body?.name || "").trim();
@@ -52,9 +60,9 @@ export const handleContact = async (req, res) => {
     });
   }
 
-  if (!EMAIL_USER || !EMAIL_PASS || !EMAIL_TO) {
-    console.error("Contact email service is missing EMAIL_USER, EMAIL_PASS, or EMAIL_TO.");
-
+  const configError = emailConfigError();
+  if (configError) {
+    console.error(configError.message);
     return res.status(503).json({
       success: false,
       error: "Contact service unavailable. Email delivery is not configured.",
@@ -62,12 +70,12 @@ export const handleContact = async (req, res) => {
   }
 
   try {
-    await transporter.sendMail({
-      from: `"Built4You Contact" <${EMAIL_USER}>`,
-      to: EMAIL_TO,
-      replyTo: email,
+    await resend.emails.send({
+      from: RESEND_FROM,
+      to: RESEND_TO,
       subject: `New Lead from ${name}`,
       html: buildLeadEmailHtml({ name, email, phone, message }),
+      replyTo: email,
     });
 
     return res.json({
@@ -75,11 +83,11 @@ export const handleContact = async (req, res) => {
       message: "Message sent successfully!",
     });
   } catch (error) {
-    console.error("Unable to send contact email with Gmail SMTP:", {
+    console.error("Unable to send contact email with Resend:", {
       message: error?.message,
       code: error?.code,
+      status: error?.status,
       response: error?.response,
-      responseCode: error?.responseCode,
       stack: error?.stack,
     });
 
